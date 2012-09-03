@@ -2,7 +2,7 @@
  * Diplomat.cpp
  *
  *  Created on: 2012-7-10
- *      Author: Administrator
+ *      Author: sundayman66@gmail.com
  */
 
 #include "diplomat.h"
@@ -12,14 +12,23 @@
 
 #include <time.h>
 #include <errno.h>
-#include <arpa/inet.h>
 
-#include "syslog.h"
+#ifndef WIN32
+#include <arpa/inet.h>
+#endif
+
+#include <syslog.h>
 
 #include "embassy.h"
 
 using namespace Net;
 
+#ifndef INVALID_SOCKET
+#define  INVALID_SOCKET -1
+#endif
+#ifndef bzero
+#define  bzero(a, b)   memset(a, 0, b)
+#endif
 const int kDefaultNetPort = 5053;
 const int Diplomat::kTimeWaitSending = 20;
 const int Diplomat::kTimeWaitRecving = 20;
@@ -30,7 +39,7 @@ Diplomat::Diplomat(const char *ip, unsigned short port, Embassy *embassy,
 
 	bzero(_ip, sizeof(_ip));
 	_port = kDefaultNetPort;
-	_sock = -1;
+	_sock = INVALID_SOCKET;
 	_online = false;
 	_reconnect_frequence = reconnect_frequence;
 	FD_ZERO(&_fdSet_r);
@@ -43,7 +52,11 @@ Diplomat::Diplomat(const char *ip, unsigned short port, Embassy *embassy,
 	_port = port;
 	_embassy = embassy;
 
-	sem_init(&_working_sem, 0, 0);
+#ifdef WIN32
+    _working_signal = ::CreateEvent(NULL, TRUE, FALSE, NULL);
+#else
+    sem_init(&_working_sem, 0, 0);
+#endif
 	_working = true;
 
 	if ( buffer_size > 0) {
@@ -61,11 +74,12 @@ Diplomat::~Diplomat() {
 
 	FD_ZERO(&_fdSet_r);
 	FD_ZERO(&_fdSet_w);
-	if(_sock != -1)
-	{
-		close(_sock);
-	}
-	sem_destroy(&_working_sem);
+    CloseSocket();
+#ifdef WIN32
+    CloseHandle(_working_signal);
+#else
+    sem_destroy(&_working_sem);
+#endif
 	if ( _recv_buf )
 		free(_recv_buf);
 }
@@ -73,11 +87,7 @@ Diplomat::~Diplomat() {
 
 bool Diplomat::ConnectServer()
 {
-	if(_sock != -1) {
-
-		close(_sock);
-		_sock = -1;
-	}
+    CloseSocket();
 
 	//创建套接字
 	if ( (_sock=socket(AF_INET,SOCK_STREAM,IPPROTO_TCP))== -1 ) {
@@ -104,9 +114,12 @@ bool Diplomat::ConnectServer()
 
 bool Diplomat::DisconnectServer() {
 
-	if(_sock != -1) {
-
-		close(_sock);
+	if(_sock != INVALID_SOCKET) {
+#ifndef WIN32
+        close(_sock);
+#else
+        ::closesocket(_sock);
+#endif
 		_sock = -1;
 	}
 	return true;
@@ -208,7 +221,11 @@ int Diplomat::Peek(char **buffer) {
 void Diplomat::Stop() {
 
 	_working = false;
-	sem_post(&_working_sem);
+#ifdef WIN32
+    ::SetEvent(_working_signal);
+#else
+    sem_post(&_working_sem);
+#endif
 	getThreadControl().join();
 }
 
@@ -235,11 +252,15 @@ void Diplomat::run() {
 		}
 
 		if ( _reconnect_frequence <= 0 || !ConnectServer() ) {
-
-			struct timespec time_sem;
-			time_sem.tv_sec = time(NULL) + kTimeWaitReconnect;
+#ifdef WIN32
+            ::WaitForSingleObject( _working_signal, kTimeWaitReconnect * 1000);
+#else
+            struct timespec time_sem;
+            time_sem.tv_sec = time(NULL) + kTimeWaitReconnect;
             time_sem.tv_nsec = 0;
             sem_timedwait(&_working_sem, &time_sem);
+#endif
+
 		}
 
 	}
@@ -318,3 +339,15 @@ void Diplomat::Online() {
 	}
 }
 
+void Diplomat::CloseSocket() {
+   
+    if(_sock != INVALID_SOCKET) {
+#ifndef WIN32
+        close(_sock);
+#else
+        ::closesocket(_sock);
+#endif
+        _sock = INVALID_SOCKET;
+    }
+
+}

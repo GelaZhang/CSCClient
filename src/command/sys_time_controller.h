@@ -1,6 +1,6 @@
 /* 
  * filename : sys_time_controller.h
- * author   : zhangjiaqin@zlg.cn
+ * author   : sundayman66@gmail.com
  * date     : 2012-8-14
  * brief    : 
  */
@@ -62,9 +62,9 @@ protected:
 						&_tm.tm_mon, &_tm.tm_mday, &_tm.tm_hour, &_tm.tm_min,
 						&_tm.tm_sec)) {
 
-			struct timespec ts;
-			ts.tv_sec = mktime(&_tm); //timegm(&_tm);;
-			ts.tv_nsec = 0;
+// 			struct timespec ts;
+// 			ts.tv_sec = mktime(&_tm); //timegm(&_tm);;
+// 			ts.tv_nsec = 0;
 			//clock_settime(CLOCK_REALTIME, &ts);
 			return true;
 

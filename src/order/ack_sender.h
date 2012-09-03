@@ -1,6 +1,6 @@
 /* 
  * filename : ack_sender.h
- * author   : zhangjiaqin@zlg.cn
+ * author   : sundayman66@gmail.com
  * date     : 2012-8-15
  * brief    : 
  */
@@ -17,7 +17,7 @@ class AckSender : public Order {
 
 public:
 	AckSender(const char* cmd_name,
-			bool result, const char* reason) : Order("ack"){
+			bool result, const char* reason) : Order("Ack"){
 		_result = result;
 		if ( cmd_name ) {
 			_cmd_name = (char*)malloc(strlen(cmd_name) + 1);

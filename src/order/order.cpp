@@ -2,12 +2,15 @@
  * Order.cpp
  *
  *  Created on: 2012-8-3
- *      Author: Administrator
+ *      Author: sundayman66@gmail.com
  */
 
 #include "order.h"
 
+#ifndef WIN32
 #include <strings.h>
+#endif
+
 #include <string>
 
 #include <syslog.h>

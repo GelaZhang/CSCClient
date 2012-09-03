@@ -1,6 +1,6 @@
 /* 
  * filename : service.h
- * author   : zhangjiaqin@zlg.cn
+ * author   : sundayman66@gmail.com
  * date     : 2012-7-6
  * brief    : 
  */
@@ -9,9 +9,9 @@
 #define SERVICE_H_
 
 #include <string>
-
+#ifndef WIN32
 #include <sys/socket.h>
-
+#endif
 #include "ref_counter.h"
 
 #include "diplomat.h"

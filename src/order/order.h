@@ -1,6 +1,6 @@
 /* 
  * filename : order.h
- * author   : zhangjiaqin@zlg.cn
+ * author   : sundayman66@gmail.com
  * date     : 2012-8-3
  * brief    : 
  */

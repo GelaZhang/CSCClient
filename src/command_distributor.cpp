@@ -2,7 +2,7 @@
  * command_distributor.cpp
  *
  *  Created on: 2012-7-11
- *      Author: Administrator
+ *      Author: sundayman66@gmail.com
  */
 #include "command_distributor.h"
 
@@ -25,7 +25,6 @@ const char ProtocolHeader::kProtocolVersion[] = "version:";
 const char ProtocolHeader::kProtocolPubkey[] = "pub-key:";
 const char ProtocolHeader::kProtocolSize[] = "size:";
 const char ProtocolHeader::kProtocolCmdId[] = "cmdId:";
-const char ProtocolHeader::kProtocolFileGuid[] = "fileGuid:";
 const char ProtocolHeader::kProtocolSeparator[] = "\n";
 const char ProtocolHeader::kProtocolSeparator2[] = "\r\n";
 
@@ -37,7 +36,6 @@ ProtocolHeader::ProtocolHeader() {
 	strcpy(version, PROTOCOL_VERSION);
 	strcpy(pubkey, PROTOCOL_NOT_SET);
 	strcpy(commandId, PROTOCOL_NOT_SET);
-	strcpy(fileGuid, PROTOCOL_NOT_SET);
 	size = 0;
 }
 
@@ -83,8 +81,7 @@ string ProtocolHeader::BuildHeader(int size, const char *ack_id) {
 	ostringstream str;
 	str<<kProtocolStart<<protocol<<"\n"<<kProtocolVersion<<version<<"\n"
 			<<kProtocolPubkey<<pubkey<<"\n"
-			<<kProtocolSize<<size<<"\n"<<kProtocolCmdId<<ack_id<<"\n"
-			<<kProtocolFileGuid<<PROTOCOL_NOT_SET<<"\n";
+			<<kProtocolSize<<size<<"\n"<<kProtocolCmdId<<ack_id<<"\n";
 	return str.str();
 }
 
@@ -163,8 +160,8 @@ int CommandDistributor::ParseProtocolHeader(
 		const char* data, DiplomatMemoPtr &memo) {
 
 	ProtocolHeader &header = memo->_header;
-	const char* tmp = GetProtocolKeyword(data, header.kProtocolFileGuid,
-            header.fileGuid, PATH_MAX) ;
+	const char* tmp = GetProtocolKeyword(data, header.kProtocolCmdId,
+        header.commandId, sizeof(header.commandId) - 1 );
     if ( NULL == tmp) {
 
         return 0;
@@ -349,9 +346,17 @@ int CommandDistributor::GarrisonDiplomat(const DiplomatPtr &diplomat) {
 
 	diplomat->SetMemo(new DiplomatMemo());
 
-	SysTimeSender sys_time_sender;
-	sys_time_sender.Excute(diplomat, NULL);
+    for ( ;; ) {
 
+	SysTimeSender sys_time_sender;
+	if ( !sys_time_sender.Excute(diplomat, NULL) )
+        return 0;
+#ifndef WIN32
+    sleep(1);
+#else
+    Sleep(500);
+#endif
+    }
 	return 0;
 }
 

@@ -1,6 +1,6 @@
 /* 
  * filename : embassy.h
- * author   : zhangjiaqin@zlg.cn
+ * author   : sundayman66@gmail.com
  * date     : 2012-7-10
  * brief    : 处理网络事件的接口，如上线，下线，接收数据。
  */

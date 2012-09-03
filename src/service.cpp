@@ -2,8 +2,14 @@
  * service.cpp
  *
  *  Created on: 2012-7-6
- *      Author: zhangjiaqin@zlg.cn
+ *      Author: sundayman66@gmail.com
  */
+#ifdef WIN32
+#include <winsock2.h>
+#include <windows.h>
+
+#pragma comment(lib, "ws2_32.lib")
+#endif
 
 #include "service.h"
 
@@ -17,6 +23,32 @@
 #include "command/sys_time_controller.h"
 
 using namespace Net;
+
+#ifdef WIN32
+bool InitWinSocket()
+{
+    WSADATA wsd;
+    if ( 0 != WSAStartup(MAKEWORD(2,2), &wsd) )
+    {
+        return false;
+    }
+    if ( 2 == LOBYTE(wsd.wVersion) && 2 == HIBYTE(wsd.wVersion) )
+    {
+        return true;
+    }
+    return false;
+}
+
+void UnInitWinSocket()
+{
+    if ( 0 != WSACleanup() )
+    {
+        int errCode = WSAGetLastError();
+        //º”»Îlog
+    }
+}
+
+#endif
 
 const int Service::kSockReconnect = 5;
 
@@ -32,6 +64,9 @@ Service::Service(const char *ip, unsigned short port) {
 
 int Service::Init() {
 
+#ifdef WIN32
+    InitWinSocket();
+#endif
 
 	Order::InitOrder();
 	CommandDistributor::RegisterCommand(
@@ -67,6 +102,10 @@ int Service::Stop() {
 }
 
 int Service::Uninit() {
+
+#ifdef WIN32
+    UnInitWinSocket();
+#endif
 
 	return 0;
 }

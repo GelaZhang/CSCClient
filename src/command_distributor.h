@@ -1,6 +1,6 @@
 /* 
  * filename : command_distributor.h
- * author   : zhangjiaqin@zlg.cn
+ * author   : sundayman66@gmail.com
  * date     : 2012-7-11
  * brief    : 解析协议头分发命令
  */
@@ -19,11 +19,9 @@ namespace Net {
 
 
 #ifndef PATH_MAX
-	#ifdef WIN32
-		#define PATH_MAX _PATH_MAX
-		#else
-		#define PATH_MAX 255
-	#endif
+
+#define PATH_MAX 255
+
 #endif
 /*
  * brief 协议头结构
@@ -35,7 +33,6 @@ struct ProtocolHeader {
     static const char kProtocolPubkey[];
     static const char kProtocolSize[];
     static const char kProtocolCmdId[];
-    static const char kProtocolFileGuid[];
     static const char kProtocolSeparator[];
     static const char kProtocolSeparator2[];
 
@@ -43,7 +40,6 @@ struct ProtocolHeader {
     char version[32];
     char pubkey[32 + 1];
     char commandId[128 + 1];
-    char fileGuid[PATH_MAX + 1];
     int size;
     ProtocolHeader();
     void SetDefaultPubkey();

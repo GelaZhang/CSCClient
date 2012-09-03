@@ -1,6 +1,6 @@
 /* 
  * filename : protocol_def.h
- * author   : sundayman
+ * author   : sundayman66@gmail.com
  * date     : Aug 27, 2012
  * brief    : 
  */
@@ -12,6 +12,6 @@
 #define PROTOCOL_NAME	"PROTOCOL-name"
 
 
-#define PROTOCOL_METHOD_SET_SYS_TIME "setSystemTime"
+#define PROTOCOL_METHOD_SET_SYS_TIME "SetSystemTime"
 
 #endif //PROTOCOL_DEF_H_

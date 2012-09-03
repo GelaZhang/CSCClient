@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\src">
+      <UniqueIdentifier>{deddba4a-38bf-4f76-8ee8-6c136ca0bc98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\src\command">
+      <UniqueIdentifier>{b0b24e5b-015a-41f7-96ee-6b2846e28952}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\src\common">
+      <UniqueIdentifier>{3917834d-2a90-4957-b407-f269dcf8933e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\src\order">
+      <UniqueIdentifier>{6fc85784-5b2a-4ac5-bb99-bbe7d2e0506a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\third_party">
+      <UniqueIdentifier>{8681a83c-c41a-455d-80cc-9d8fe3e5cec9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\third_party\tinyxml">
+      <UniqueIdentifier>{540ca208-40d7-4323-b9f1-f1c0ed73574f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\utility">
+      <UniqueIdentifier>{38cdccc2-8788-4eb0-a4b7-36c9e6e9fc41}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\CSCClient.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\command_distributor.cpp">
+      <Filter>Source Files\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\diplomat.cpp">
+      <Filter>Source Files\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\service.cpp">
+      <Filter>Source Files\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\order\order.cpp">
+      <Filter>Source Files\src\order</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\common\tea.cpp">
+      <Filter>Source Files\src\common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\third_party\tinyxml\tinystr.cpp">
+      <Filter>Source Files\third_party\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\third_party\tinyxml\tinyxml.cpp">
+      <Filter>Source Files\third_party\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\third_party\tinyxml\tinyxmlerror.cpp">
+      <Filter>Source Files\third_party\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\third_party\tinyxml\tinyxmlparser.cpp">
+      <Filter>Source Files\third_party\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Utility\src\identity_master.cpp">
+      <Filter>Source Files\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Utility\src\ref_counter.cpp">
+      <Filter>Source Files\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Utility\src\thread.cpp">
+      <Filter>Source Files\utility</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\src\command_distributor.h">
+      <Filter>Source Files\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\diplomat.h">
+      <Filter>Source Files\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\embassy.h">
+      <Filter>Source Files\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\protocol_def.h">
+      <Filter>Source Files\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\service.h">
+      <Filter>Source Files\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\command\command.h">
+      <Filter>Source Files\src\command</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\command\sys_time_controller.h">
+      <Filter>Source Files\src\command</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\order\ack_sender.h">
+      <Filter>Source Files\src\order</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\order\order.h">
+      <Filter>Source Files\src\order</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\order\sys_time_sender.h">
+      <Filter>Source Files\src\order</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\common\tea.h">
+      <Filter>Source Files\src\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\third_party\tinyxml\tinystr.h">
+      <Filter>Source Files\third_party\tinyxml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\third_party\tinyxml\tinyxml.h">
+      <Filter>Source Files\third_party\tinyxml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Utility\src\identity_master.h">
+      <Filter>Source Files\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Utility\src\mutex.h">
+      <Filter>Source Files\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Utility\src\ref_counter.h">
+      <Filter>Source Files\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Utility\src\thread.h">
+      <Filter>Source Files\utility</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

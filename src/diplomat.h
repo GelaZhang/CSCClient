@@ -1,6 +1,6 @@
 /* 
  * filename : diplomat.h
- * author   : zhangjiaqin@zlg.cn
+ * author   : sundayman66@gmail.com
  * date     : 2012-7-9
  * brief    : 
  */
@@ -10,11 +10,11 @@
  */
 #ifndef DIPLOMAT_H_
 #define DIPLOMAT_H_
-
+#ifndef WIN32
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <semaphore.h>
-
+#endif
 #include "thread.h"
 
 namespace Net {
@@ -101,6 +101,8 @@ private:
 
 	void Online();
 
+    void CloseSocket();
+
 private:
 	char _ip[INET_ADDRSTRLEN + 1];
 	unsigned short _port;
@@ -116,7 +118,11 @@ private:
 	Mutex _mutex_send;
 
 	Embassy *_embassy;
-	sem_t _working_sem;
+#ifdef WIN32
+    HANDLE _working_signal;
+#else
+    sem_t _working_sem;
+#endif
 	bool _working;
 
 	MemoPtr _memo;
