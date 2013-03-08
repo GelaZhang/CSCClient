@@ -15,7 +15,7 @@
 
 #include "protocol_def.h"
 
-#include "order/sys_time_sender.h"
+#include "order/echo_sender.h"
 
 using namespace Net;
 using namespace std;
@@ -24,11 +24,12 @@ const char ProtocolHeader::kProtocolStart[] = "protocol:";
 const char ProtocolHeader::kProtocolVersion[] = "version:";
 const char ProtocolHeader::kProtocolPubkey[] = "pub-key:";
 const char ProtocolHeader::kProtocolSize[] = "size:";
-const char ProtocolHeader::kProtocolCmdId[] = "cmdId:";
+const char ProtocolHeader::kProtocolCmdId[] = "cmd-id:";
 const char ProtocolHeader::kProtocolSeparator[] = "\n";
 const char ProtocolHeader::kProtocolSeparator2[] = "\r\n";
 
 const int CommandDistributor::kMaxLengthOfHeader = 1024;
+const int CommandDistributor::kMaxLengthOfMethod = 64 * 1024;
 CommandDistributor::CmdMap CommandDistributor::s_cmds;
 
 ProtocolHeader::ProtocolHeader() {
@@ -38,41 +39,6 @@ ProtocolHeader::ProtocolHeader() {
 	strcpy(commandId, PROTOCOL_NOT_SET);
 	size = 0;
 }
-
-int EncryptMac(char *src,
-                unsigned int srcLen, char *dest, unsigned int destLen)
-{
-
-    if ( !EncryptData_TEA(src, strlen(src), src) )
-    {
-        syslog(LOG_ERR, "net: encrypt faild");
-        return -1;
-    }
-
-    char tmp[10];
-
-    if (destLen <= srcLen * 2)
-    {
-        return -1;
-    }
-    dest[0] = '\0';
-
-    for (unsigned int i = 0; i < srcLen; ++i)
-    {
-        sprintf(tmp, "%02X", ((unsigned char*)src)[i]);
-        strcat(dest, tmp);
-    }
-    return strlen(dest);
-}
-
-void ProtocolHeader::SetDefaultPubkey() {
-
-
-	//设置加密密钥
-	//EncryptMac(localMac, strlen(localMac), pubkey, sizeof(pubkey) - 1);
-
-}
-
 
 string ProtocolHeader::BuildHeader(int size, const char *ack_id) {
 
@@ -130,6 +96,11 @@ int CommandDistributor::RecvSomething(const DiplomatPtr &diplomat) {
 				memo->_header_got = false;
 				cmd_cnt ++;
 				continue;
+
+			}  else if ( header.size > kMaxLengthOfMethod ) {
+				memo->_header_got = false;
+				cursor = length;
+				break;
 
 			} else {
 
@@ -232,21 +203,22 @@ int CommandDistributor::GetProtocolHeader(
 	int ret = ParseProtocolHeader(buffer + cursor, memo);
 	if ( 0 == ret ) {
 
-		if ( length - cursor > kMaxLengthOfHeader ) {
+		for ( int i = 0;length - cursor > kMaxLengthOfHeader && 0 == ret; i ++) {
 
-			syslog(LOG_INFO,
-					"net: buf is more than max haeder len but do not recv header\n");
-			cursor += 1; //丢弃一个字节
+			if ( i == 0)
+				syslog(LOG_INFO,
+				"net: buf is more than max haeder len but do not recv header\n");
+			cursor += strlen(memo->_header.kProtocolStart); //丢弃第一个关键字长度
 
+			ret = ParseProtocolHeader(buffer + cursor, memo);
 		}
 
-		if ( cursor > 0 ) { //将缓冲区左移，即将已解析出来的抽掉
-
-			diplomat->Drain(cursor);
+		if ( 0 == ret ) {
+			return -1;
 		}
-		return -1;
 
-	} else if ( -1 == ret ) {
+	} 
+	if ( -1 == ret ) {
 
 		cursor += memo->_header_length;
 		syslog(LOG_INFO, "net: recv illegal package\n");
@@ -341,22 +313,31 @@ int CommandDistributor::ParseCommand(const DiplomatPtr &diplomat,
 	return ret;
 
 }
+class Test :  public Utility::Thread
+{
+public:
+	Test(const DiplomatPtr &diplomat): _diplomat(diplomat){}
+	virtual void run()
+	{
+		for ( ;; ) {
+			EchoSender echo_sender;
+			if ( !echo_sender.Excute(_diplomat, NULL) )
+				return ;
+#ifndef WIN32
+			sleep(1);
+#else
+			Sleep(10);
+#endif
+		}
+	}
+	DiplomatPtr _diplomat;
+};
 
 int CommandDistributor::GarrisonDiplomat(const DiplomatPtr &diplomat) {
 
 	diplomat->SetMemo(new DiplomatMemo());
-
-    for ( ;; ) {
-
-	SysTimeSender sys_time_sender;
-	if ( !sys_time_sender.Excute(diplomat, NULL) )
-        return 0;
-#ifndef WIN32
-    sleep(1);
-#else
-    Sleep(500);
-#endif
-    }
+	Test* test = new Test(diplomat);
+	test->start();
 	return 0;
 }
 

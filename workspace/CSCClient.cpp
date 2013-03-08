@@ -12,10 +12,10 @@ using namespace Net;
 
 int main(int argc, char* argv[]) {
 
-	Service svr("192.168.27.100", 5053);
+	Service svr("192.168.27.100", 5055);
 	svr.Init();
 	svr.Start();
-	for (int i = 0; i < 50; i ++) {
+	for (int i = 0; i < 5000; i ++) {
 #ifndef WIN32
 		sleep(1);
 #else

@@ -47,7 +47,6 @@ bool Order::Excute(const DiplomatPtr &diplomat, const char* command_id) {
 
 
 void Order::InitOrder() {
-	s_header.SetDefaultPubkey();
 }
 
 
@@ -64,6 +63,7 @@ void Order::InitOrder(const char *name) {
     //name节点
     TiXmlElement* nameEle = new TiXmlElement("name");
     _method->LinkEndChild(nameEle);
+	nameEle->SetAttribute("id", s_id ++);
     TiXmlText* nameContent = NULL;
     if ( name )
     	nameContent = new TiXmlText(name);
@@ -74,7 +74,7 @@ void Order::InitOrder(const char *name) {
     _order_params = new TiXmlElement("params");
     _method->LinkEndChild(_order_params);
 
-    _method->SetAttribute("id", s_id ++);
+    
 }
 
 

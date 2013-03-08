@@ -104,9 +104,6 @@
     <ClInclude Include="..\..\..\src\order\order.h">
       <Filter>Source Files\src\order</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\order\sys_time_sender.h">
-      <Filter>Source Files\src\order</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\common\tea.h">
       <Filter>Source Files\src\common</Filter>
     </ClInclude>
@@ -127,6 +124,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\Utility\src\thread.h">
       <Filter>Source Files\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\order\echo_sender.h">
+      <Filter>Source Files\src\order</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

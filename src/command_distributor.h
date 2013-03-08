@@ -42,13 +42,13 @@ struct ProtocolHeader {
     char commandId[128 + 1];
     int size;
     ProtocolHeader();
-    void SetDefaultPubkey();
     std::string BuildHeader(int size, const char *ack_id);
 };
 
 class CommandDistributor  : public Embassy{
 
 	static const int kMaxLengthOfHeader;
+	static const int kMaxLengthOfMethod;
 
 	class DiplomatMemo: public Memo {
 
