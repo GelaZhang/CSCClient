@@ -55,6 +55,7 @@ Service::Service(const char *ip, unsigned short port) {
 	} else {
 		_ip = "127.0.0.1";
 	}
+	_embassy = NULL;
 }
 
 
@@ -63,8 +64,8 @@ int Service::Init(Embassy *embassy) {
 #ifdef WIN32
     InitWinSocket();
 #endif
-
-	_diplomat = new Diplomat(_ip.c_str(), _server_port, embassy, kSockReconnect, 64*1024);
+	_embassy = embassy;
+	_diplomat = new Diplomat(_ip.c_str(), _server_port, _embassy, kSockReconnect, 64*1024);
 
 
 
@@ -75,6 +76,8 @@ int Service::Init(Embassy *embassy) {
 
 int Service::Start() {
 
+	if ( _embassy )
+		_embassy->StartEmbassy();
 	if (_diplomat ) {
 
 		_diplomat->start(160 * 1024);
@@ -88,7 +91,8 @@ int Service::Stop() {
 	if (_diplomat) {
 		_diplomat->Stop();
 	}
-
+	if ( _embassy )
+		_embassy->StopEmbassy();
 
 	return 0;
 }

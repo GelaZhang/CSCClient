@@ -14,6 +14,7 @@
 #endif
 #include "ref_counter.h"
 
+#include "embassy.h"
 #include "diplomat.h"
 
 namespace Net {
@@ -55,6 +56,7 @@ private:
 
 	unsigned int _server_port;
 	std::string _ip;
+	Embassy *_embassy;
 
 private:
 
