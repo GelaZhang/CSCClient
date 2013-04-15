@@ -15,7 +15,6 @@
 #include "ref_counter.h"
 
 #include "diplomat.h"
-#include "command_distributor.h"
 
 namespace Net {
 #ifndef INET_ADDRSTRLEN
@@ -31,7 +30,7 @@ public:
 	 *  \brief 初始化服务
 	 *  \return E_OK 返回成功
 	 */
-	int Init();
+	int Init(Embassy *embassy);
 
 	/**
 	 *  \brief 启动socket服务
@@ -52,7 +51,6 @@ public:
 
 private:
 
-	CommandDistributor _cmd_distributor;
 	DiplomatPtr _diplomat; //一个diplomat 对应一个command distributor;
 
 	unsigned int _server_port;

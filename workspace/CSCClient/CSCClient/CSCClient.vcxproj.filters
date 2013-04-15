@@ -16,15 +16,6 @@
     <Filter Include="Source Files\src">
       <UniqueIdentifier>{deddba4a-38bf-4f76-8ee8-6c136ca0bc98}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\src\command">
-      <UniqueIdentifier>{b0b24e5b-015a-41f7-96ee-6b2846e28952}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\src\common">
-      <UniqueIdentifier>{3917834d-2a90-4957-b407-f269dcf8933e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\src\order">
-      <UniqueIdentifier>{6fc85784-5b2a-4ac5-bb99-bbe7d2e0506a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\third_party">
       <UniqueIdentifier>{8681a83c-c41a-455d-80cc-9d8fe3e5cec9}</UniqueIdentifier>
     </Filter>
@@ -34,25 +25,28 @@
     <Filter Include="Source Files\utility">
       <UniqueIdentifier>{38cdccc2-8788-4eb0-a4b7-36c9e6e9fc41}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\src\protocol">
+      <UniqueIdentifier>{017ba150-1572-41cb-822b-1917dd2f328c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\src\protocol\order">
+      <UniqueIdentifier>{e18072da-6d70-401b-ac8e-edde70b7014c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\src\protocol\command">
+      <UniqueIdentifier>{23b4ad5d-7d7d-4e01-82ad-bb2bc7b175ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\src\common">
+      <UniqueIdentifier>{684f0674-38d0-4a4e-a760-7b84ac2ef18a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\CSCClient.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\command_distributor.cpp">
-      <Filter>Source Files\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\diplomat.cpp">
       <Filter>Source Files\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\service.cpp">
       <Filter>Source Files\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\order\order.cpp">
-      <Filter>Source Files\src\order</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\common\tea.cpp">
-      <Filter>Source Files\src\common</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\third_party\tinyxml\tinystr.cpp">
       <Filter>Source Files\third_party\tinyxml</Filter>
@@ -75,11 +69,20 @@
     <ClCompile Include="..\..\..\..\Utility\src\thread.cpp">
       <Filter>Source Files\utility</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\protocol\order\order.cpp">
+      <Filter>Source Files\src\protocol\order</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\common\tea.cpp">
+      <Filter>Source Files\src\common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\protocol\default_factory.cpp">
+      <Filter>Source Files\src\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\protocol\default_protocol.cpp">
+      <Filter>Source Files\src\protocol</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\src\command_distributor.h">
-      <Filter>Source Files\src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\diplomat.h">
       <Filter>Source Files\src</Filter>
     </ClInclude>
@@ -91,21 +94,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\src\service.h">
       <Filter>Source Files\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\command\command.h">
-      <Filter>Source Files\src\command</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\command\sys_time_controller.h">
-      <Filter>Source Files\src\command</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\order\ack_sender.h">
-      <Filter>Source Files\src\order</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\order\order.h">
-      <Filter>Source Files\src\order</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\common\tea.h">
-      <Filter>Source Files\src\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\third_party\tinyxml\tinystr.h">
       <Filter>Source Files\third_party\tinyxml</Filter>
@@ -125,8 +113,32 @@
     <ClInclude Include="..\..\..\..\Utility\src\thread.h">
       <Filter>Source Files\utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\order\echo_sender.h">
-      <Filter>Source Files\src\order</Filter>
+    <ClInclude Include="..\..\..\src\protocol\order\ack_sender.h">
+      <Filter>Source Files\src\protocol\order</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\protocol\order\echo_sender.h">
+      <Filter>Source Files\src\protocol\order</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\protocol\order\order.h">
+      <Filter>Source Files\src\protocol\order</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\protocol\command\command.h">
+      <Filter>Source Files\src\protocol\command</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\protocol\command\sys_time_controller.h">
+      <Filter>Source Files\src\protocol\command</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\common\tea.h">
+      <Filter>Source Files\src\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\protocol.h">
+      <Filter>Source Files\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\protocol\default_factory.h">
+      <Filter>Source Files\src\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\protocol\default_protocol.h">
+      <Filter>Source Files\src\protocol</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

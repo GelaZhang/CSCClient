@@ -17,10 +17,6 @@
 
 #include "syslog.h"
 
-#include "protocol_def.h"
-#include "command/command.h"
-#include "command_distributor.h"
-#include "command/sys_time_controller.h"
 
 using namespace Net;
 
@@ -62,17 +58,13 @@ Service::Service(const char *ip, unsigned short port) {
 }
 
 
-int Service::Init() {
+int Service::Init(Embassy *embassy) {
 
 #ifdef WIN32
     InitWinSocket();
 #endif
 
-	Order::InitOrder();
-	CommandDistributor::RegisterCommand(
-			new SysTimeController(PROTOCOL_METHOD_SET_SYS_TIME));
-
-	_diplomat = new Diplomat(_ip.c_str(), _server_port, &_cmd_distributor, kSockReconnect, 64*1024);
+	_diplomat = new Diplomat(_ip.c_str(), _server_port, embassy, kSockReconnect, 64*1024);
 
 
 

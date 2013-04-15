@@ -16,7 +16,7 @@
 #include <semaphore.h>
 #endif
 #include "thread.h"
-
+#include "ref_counter.h"
 namespace Net {
 
 
@@ -29,12 +29,7 @@ typedef int SOCKET;
 #endif
 
 class Embassy;
-
-class Memo : public Utility::RefCounter{
-
-};
-typedef Utility::SmartPtr<Memo> MemoPtr;
-
+class Protocol;
 
 class Diplomat : public Utility::Thread {
 
@@ -51,8 +46,6 @@ public:
 
 	virtual ~Diplomat();
 
-	void SetMemo(const MemoPtr &memo) {_memo = memo;}
-	MemoPtr &GetMemo() {return _memo;}
 public:
 	bool ConnectServer();
 
@@ -118,6 +111,7 @@ private:
 	Mutex _mutex_send;
 
 	Embassy *_embassy;
+	Protocol *_pro;
 #ifdef WIN32
     HANDLE _working_signal;
 #else
@@ -125,7 +119,6 @@ private:
 #endif
 	bool _working;
 
-	MemoPtr _memo;
 };
 typedef Utility::SmartPtr<Diplomat> DiplomatPtr;
 

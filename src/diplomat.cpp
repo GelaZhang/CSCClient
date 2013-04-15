@@ -67,6 +67,7 @@ Diplomat::Diplomat(const char *ip, unsigned short port, Embassy *embassy,
 
 	_recv_buf = (char*)malloc(_buffer_size + 1);
 	bzero(_recv_buf, sizeof(_recv_buf));
+	_pro = NULL;
 }
 
 
@@ -244,9 +245,9 @@ void Diplomat::run() {
 		int ret = RecvData();
 		if ( -1 != ret ) {
 
-			if ( ret > 0 && _embassy ) {
+			if ( ret > 0 && _pro ) {
 
-				_embassy->RecvSomething(this);
+				_pro->RecvSomething();
 			}
 			continue;
 		}
@@ -320,9 +321,11 @@ void Diplomat::DealWithOffline() {
 		_online = false;
 	}
 
-	if ( online && _embassy ) {
+	if ( online && _pro ) {
 
-		_embassy->WithdrawDiplomat(this);
+		_pro->WithdrawDiplomat();
+		_pro->Release();
+		_pro = NULL;
 	}
 
 }
@@ -335,7 +338,19 @@ void Diplomat::Online() {
 	}
 
 	if ( _embassy ) {
-		_embassy->GarrisonDiplomat(this);
+		ProtocolPtr p = _embassy->BuildProtocol(this);
+		if (p) {
+			if ( _pro ) {
+				_pro->Release();
+				_pro = NULL;
+			}
+			_pro = p.get();
+			if ( _pro ) {
+				_pro->AddRef();
+				_pro->GarrisonDiplomat();
+				
+			}
+		}
 	}
 }
 

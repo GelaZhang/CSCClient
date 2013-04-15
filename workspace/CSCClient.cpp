@@ -7,15 +7,17 @@
 
 
 #include "../src/service.h"
-
+#include "protocol/default_factory.h"
 using namespace Net;
-
+#pragma comment( linker, "/subsystem:\"Windows\" /entry:\"mainCRTStartup\"" )
 int main(int argc, char* argv[]) {
 
+
+	DefaultFactory embassy;
 	Service svr("192.168.27.100", 5055);
-	svr.Init();
+	svr.Init(&embassy);
 	svr.Start();
-	for (int i = 0; i < 5000; i ++) {
+	for (;;) {
 #ifndef WIN32
 		sleep(1);
 #else
